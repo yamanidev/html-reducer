@@ -12,123 +12,130 @@ import Layout from "../layouts/Layout.astro";
     <div class="workspace">
       <!-- Controls -->
       <aside class="controls">
-        <div class="control-section">
-          <div class="section-label">strip</div>
-          <div class="toggle-list">
-            <label class="toggle-row">
-              <span class="toggle-label">scripts</span>
-              <span class="toggle">
-                <input type="checkbox" data-key="stripScripts" checked />
-                <span class="toggle-track"></span>
-              </span>
-            </label>
-            <label class="toggle-row">
-              <span class="toggle-label">styles</span>
-              <span class="toggle">
-                <input type="checkbox" data-key="stripStyles" checked />
-                <span class="toggle-track"></span>
-              </span>
-            </label>
-            <label class="toggle-row">
-              <span class="toggle-label">comments</span>
-              <span class="toggle">
-                <input type="checkbox" data-key="stripComments" checked />
-                <span class="toggle-track"></span>
-              </span>
-            </label>
-            <label class="toggle-row">
-              <span class="toggle-label">meta / link / head</span>
-              <span class="toggle">
-                <input type="checkbox" data-key="stripMetaLinkHead" checked />
-                <span class="toggle-track"></span>
-              </span>
-            </label>
-            <label class="toggle-row">
-              <span class="toggle-label">hidden elements</span>
-              <span class="toggle">
-                <input type="checkbox" data-key="stripHidden" checked />
-                <span class="toggle-track"></span>
-              </span>
-            </label>
-            <label class="toggle-row">
-              <span class="toggle-label">svg</span>
-              <span class="toggle">
-                <input type="checkbox" data-key="stripSvg" checked />
-                <span class="toggle-track"></span>
-              </span>
-            </label>
-            <label class="toggle-row">
-              <span class="toggle-label">noscript</span>
-              <span class="toggle">
-                <input type="checkbox" data-key="stripNoscript" checked />
-                <span class="toggle-track"></span>
-              </span>
-            </label>
-            <label class="toggle-row">
-              <span class="toggle-label">event handlers</span>
-              <span class="toggle">
-                <input type="checkbox" data-key="stripEventHandlers" checked />
-                <span class="toggle-track"></span>
-              </span>
-            </label>
-          </div>
-        </div>
+        <button class="controls-toggle" id="controls-toggle" aria-expanded="false">
+          options
+          <svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4"></path></svg>
+        </button>
 
-        <div class="control-section">
-          <div class="section-label">attributes</div>
-          <div class="toggle-list">
-            <label class="toggle-row" data-attr-sub>
-              <span class="toggle-label">strip id / class</span>
-              <span class="toggle">
-                <input type="checkbox" data-key="stripIdClass" />
-                <span class="toggle-track"></span>
-              </span>
-            </label>
-            <label class="toggle-row" data-attr-sub>
-              <span class="toggle-label">strip href</span>
-              <span class="toggle">
-                <input type="checkbox" data-key="stripHref" />
-                <span class="toggle-track"></span>
-              </span>
-            </label>
-            <label class="toggle-row" data-attr-sub>
-              <span class="toggle-label">strip src / alt</span>
-              <span class="toggle">
-                <input type="checkbox" data-key="stripSrcAlt" />
-                <span class="toggle-track"></span>
-              </span>
-            </label>
-            <label class="toggle-row">
-              <span class="toggle-label">strip all attrs</span>
-              <span class="toggle">
-                <input type="checkbox" data-key="stripAllAttrs" />
-                <span class="toggle-track"></span>
-              </span>
-            </label>
+        <div class="controls-body collapsed" id="controls-body">
+          <div class="control-section">
+            <div class="section-label">strip</div>
+            <div class="toggle-list">
+              <label class="toggle-row">
+                <span class="toggle-label">scripts</span>
+                <span class="toggle">
+                  <input type="checkbox" data-key="stripScripts" checked />
+                  <span class="toggle-track"></span>
+                </span>
+              </label>
+              <label class="toggle-row">
+                <span class="toggle-label">styles</span>
+                <span class="toggle">
+                  <input type="checkbox" data-key="stripStyles" checked />
+                  <span class="toggle-track"></span>
+                </span>
+              </label>
+              <label class="toggle-row">
+                <span class="toggle-label">comments</span>
+                <span class="toggle">
+                  <input type="checkbox" data-key="stripComments" checked />
+                  <span class="toggle-track"></span>
+                </span>
+              </label>
+              <label class="toggle-row">
+                <span class="toggle-label">meta / link / head</span>
+                <span class="toggle">
+                  <input type="checkbox" data-key="stripMetaLinkHead" checked />
+                  <span class="toggle-track"></span>
+                </span>
+              </label>
+              <label class="toggle-row">
+                <span class="toggle-label">hidden elements</span>
+                <span class="toggle">
+                  <input type="checkbox" data-key="stripHidden" checked />
+                  <span class="toggle-track"></span>
+                </span>
+              </label>
+              <label class="toggle-row">
+                <span class="toggle-label">svg</span>
+                <span class="toggle">
+                  <input type="checkbox" data-key="stripSvg" checked />
+                  <span class="toggle-track"></span>
+                </span>
+              </label>
+              <label class="toggle-row">
+                <span class="toggle-label">noscript</span>
+                <span class="toggle">
+                  <input type="checkbox" data-key="stripNoscript" checked />
+                  <span class="toggle-track"></span>
+                </span>
+              </label>
+              <label class="toggle-row">
+                <span class="toggle-label">event handlers</span>
+                <span class="toggle">
+                  <input type="checkbox" data-key="stripEventHandlers" checked />
+                  <span class="toggle-track"></span>
+                </span>
+              </label>
+            </div>
           </div>
-        </div>
 
-        <div class="control-section">
-          <div class="section-label">structure</div>
-          <div class="toggle-list">
-            <label class="toggle-row">
-              <span class="toggle-label">collapse whitespace</span>
-              <span class="toggle">
-                <input type="checkbox" data-key="collapseWhitespace" checked />
-                <span class="toggle-track"></span>
-              </span>
-            </label>
-            <label class="toggle-row">
-              <span class="toggle-label">remove empty tags</span>
-              <span class="toggle">
-                <input type="checkbox" data-key="removeEmptyTags" checked />
-                <span class="toggle-track"></span>
-              </span>
-            </label>
+          <div class="control-section">
+            <div class="section-label">attributes</div>
+            <div class="toggle-list">
+              <label class="toggle-row" data-attr-sub>
+                <span class="toggle-label">strip id / class</span>
+                <span class="toggle">
+                  <input type="checkbox" data-key="stripIdClass" />
+                  <span class="toggle-track"></span>
+                </span>
+              </label>
+              <label class="toggle-row" data-attr-sub>
+                <span class="toggle-label">strip href</span>
+                <span class="toggle">
+                  <input type="checkbox" data-key="stripHref" />
+                  <span class="toggle-track"></span>
+                </span>
+              </label>
+              <label class="toggle-row" data-attr-sub>
+                <span class="toggle-label">strip src / alt</span>
+                <span class="toggle">
+                  <input type="checkbox" data-key="stripSrcAlt" />
+                  <span class="toggle-track"></span>
+                </span>
+              </label>
+              <label class="toggle-row">
+                <span class="toggle-label">strip all attrs</span>
+                <span class="toggle">
+                  <input type="checkbox" data-key="stripAllAttrs" />
+                  <span class="toggle-track"></span>
+                </span>
+              </label>
+            </div>
           </div>
-        </div>
 
-        <button class="reset-btn" id="btn-reset">reset to defaults</button>
+          <div class="control-section">
+            <div class="section-label">structure</div>
+            <div class="toggle-list">
+              <label class="toggle-row">
+                <span class="toggle-label">collapse whitespace</span>
+                <span class="toggle">
+                  <input type="checkbox" data-key="collapseWhitespace" checked />
+                  <span class="toggle-track"></span>
+                </span>
+              </label>
+              <label class="toggle-row">
+                <span class="toggle-label">remove empty tags</span>
+                <span class="toggle">
+                  <input type="checkbox" data-key="removeEmptyTags" checked />
+                  <span class="toggle-track"></span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <button class="reset-btn" id="btn-reset">reset to defaults</button>
+        </div>
       </aside>
 
       <!-- Input panel -->
