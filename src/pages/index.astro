@@ -1,11 +1,171 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout>
-	<Welcome />
+  <div class="app">
+    <header>
+      <h1>HTML Reducer</h1>
+      <span class="privacy-note">your HTML never leaves your browser</span>
+    </header>
+
+    <div class="workspace">
+      <!-- Controls -->
+      <aside class="controls">
+        <div class="control-section">
+          <div class="section-label">strip</div>
+          <div class="toggle-list">
+            <label class="toggle-row">
+              <span class="toggle-label">scripts</span>
+              <span class="toggle">
+                <input type="checkbox" data-key="stripScripts" checked />
+                <span class="toggle-track"></span>
+              </span>
+            </label>
+            <label class="toggle-row">
+              <span class="toggle-label">styles</span>
+              <span class="toggle">
+                <input type="checkbox" data-key="stripStyles" checked />
+                <span class="toggle-track"></span>
+              </span>
+            </label>
+            <label class="toggle-row">
+              <span class="toggle-label">comments</span>
+              <span class="toggle">
+                <input type="checkbox" data-key="stripComments" checked />
+                <span class="toggle-track"></span>
+              </span>
+            </label>
+            <label class="toggle-row">
+              <span class="toggle-label">meta / link / head</span>
+              <span class="toggle">
+                <input type="checkbox" data-key="stripMetaLinkHead" checked />
+                <span class="toggle-track"></span>
+              </span>
+            </label>
+            <label class="toggle-row">
+              <span class="toggle-label">hidden elements</span>
+              <span class="toggle">
+                <input type="checkbox" data-key="stripHidden" checked />
+                <span class="toggle-track"></span>
+              </span>
+            </label>
+            <label class="toggle-row">
+              <span class="toggle-label">svg</span>
+              <span class="toggle">
+                <input type="checkbox" data-key="stripSvg" checked />
+                <span class="toggle-track"></span>
+              </span>
+            </label>
+            <label class="toggle-row">
+              <span class="toggle-label">noscript</span>
+              <span class="toggle">
+                <input type="checkbox" data-key="stripNoscript" checked />
+                <span class="toggle-track"></span>
+              </span>
+            </label>
+            <label class="toggle-row">
+              <span class="toggle-label">event handlers</span>
+              <span class="toggle">
+                <input type="checkbox" data-key="stripEventHandlers" checked />
+                <span class="toggle-track"></span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="control-section">
+          <div class="section-label">attributes</div>
+          <div class="toggle-list">
+            <label class="toggle-row" data-attr-sub>
+              <span class="toggle-label">strip id / class</span>
+              <span class="toggle">
+                <input type="checkbox" data-key="stripIdClass" />
+                <span class="toggle-track"></span>
+              </span>
+            </label>
+            <label class="toggle-row" data-attr-sub>
+              <span class="toggle-label">strip href</span>
+              <span class="toggle">
+                <input type="checkbox" data-key="stripHref" />
+                <span class="toggle-track"></span>
+              </span>
+            </label>
+            <label class="toggle-row" data-attr-sub>
+              <span class="toggle-label">strip src / alt</span>
+              <span class="toggle">
+                <input type="checkbox" data-key="stripSrcAlt" />
+                <span class="toggle-track"></span>
+              </span>
+            </label>
+            <label class="toggle-row">
+              <span class="toggle-label">strip all attrs</span>
+              <span class="toggle">
+                <input type="checkbox" data-key="stripAllAttrs" />
+                <span class="toggle-track"></span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="control-section">
+          <div class="section-label">structure</div>
+          <div class="toggle-list">
+            <label class="toggle-row">
+              <span class="toggle-label">collapse whitespace</span>
+              <span class="toggle">
+                <input type="checkbox" data-key="collapseWhitespace" checked />
+                <span class="toggle-track"></span>
+              </span>
+            </label>
+            <label class="toggle-row">
+              <span class="toggle-label">remove empty tags</span>
+              <span class="toggle">
+                <input type="checkbox" data-key="removeEmptyTags" checked />
+                <span class="toggle-track"></span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <button class="reset-btn" id="btn-reset">reset to defaults</button>
+      </aside>
+
+      <!-- Input panel -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">input</span>
+          <div class="panel-meta">
+            <span id="input-chars">0 chars</span>
+            <button class="icon-btn" id="btn-clear">
+              <svg viewBox="0 0 16 16">
+                <path d="M12 4L4 12M4 4l8 8"></path>
+              </svg>
+              clear
+            </button>
+          </div>
+        </div>
+        <textarea id="html-input" placeholder="paste html here…" spellcheck="false"></textarea>
+      </div>
+
+      <!-- Output panel -->
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">output</span>
+          <div class="panel-meta">
+            <span class="reduction-badge" id="reduction-badge" style="display:none">−0%</span>
+            <span id="token-count">~0 tokens</span>
+            <button class="icon-btn" id="btn-copy">
+              <svg viewBox="0 0 16 16">
+                <rect x="5" y="5" width="8" height="8" rx="1"></rect>
+                <path d="M3 11V3h8"></path>
+              </svg>
+              copy
+            </button>
+          </div>
+        </div>
+        <div class="output-area" id="html-output"></div>
+      </div>
+    </div>
+  </div>
 </Layout>
