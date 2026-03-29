@@ -176,3 +176,125 @@ import Layout from "../layouts/Layout.astro";
     </div>
   </div>
 </Layout>
+
+<script>
+  import { reduceHtml, DEFAULT_CONFIG } from "../lib/reducer";
+  import type { ReducerConfiguration } from "../lib/reducer";
+
+  const inputEl = document.getElementById("html-input") as HTMLTextAreaElement;
+  const outputEl = document.getElementById("html-output") as HTMLElement;
+  const inputCharsEl = document.getElementById("input-chars") as HTMLElement;
+  const tokenCountEl = document.getElementById("token-count") as HTMLElement;
+  const reductionEl = document.getElementById("reduction-badge") as HTMLElement;
+  const clearBtn = document.getElementById("btn-clear") as HTMLButtonElement;
+  const copyBtn = document.getElementById("btn-copy") as HTMLButtonElement;
+  const resetBtn = document.getElementById("btn-reset") as HTMLButtonElement;
+  const controlsToggle = document.getElementById("controls-toggle") as HTMLButtonElement;
+  const controlsBody = document.getElementById("controls-body") as HTMLElement;
+  const toggleInputs = document.querySelectorAll<HTMLInputElement>("input[data-key]");
+  const stripAllInput = document.querySelector<HTMLInputElement>(
+    'input[data-key="stripAllAttrs"]',
+  )!;
+  const attrKeepRows = document.querySelectorAll<HTMLElement>("[data-attr-sub]");
+
+  function debounce(fn: () => void, ms: number): () => void {
+    let timer: ReturnType<typeof setTimeout>;
+
+    return () => {
+      clearTimeout(timer);
+      timer = setTimeout(fn, ms);
+    };
+  }
+
+  function readOptions(): ReducerConfiguration {
+    const config = { ...DEFAULT_CONFIG };
+    toggleInputs.forEach((input) => {
+      const key = input.dataset.key as keyof ReducerConfiguration;
+      if (typeof config[key] === "boolean") {
+        (config as Record<string, unknown>)[key] = input.checked;
+      }
+    });
+
+    return config;
+  }
+
+  function updateStats(inputLen: number, outputLen: number): void {
+    inputCharsEl.textContent = `${inputLen.toLocaleString()} chars`;
+    tokenCountEl.textContent = `~${Math.round(outputLen / 4).toLocaleString()} tokens`;
+
+    const reduction = inputLen > 0 ? Math.round((1 - outputLen / inputLen) * 100) : 0;
+    if (reduction > 0) {
+      reductionEl.textContent = `−${reduction}%`;
+      reductionEl.style.display = "";
+    } else {
+      reductionEl.style.display = "none";
+    }
+  }
+
+  function syncStripAllAttrs(): void {
+    const stripping = stripAllInput.checked;
+    attrKeepRows.forEach((row) => {
+      row.classList.toggle("disabled", stripping);
+      const input = row.querySelector<HTMLInputElement>("input");
+      if (input) input.disabled = stripping;
+    });
+  }
+
+  const process = debounce(() => {
+    const input = inputEl.value;
+    const output = input.trim() ? reduceHtml(input, readOptions()) : "";
+    outputEl.textContent = output;
+    updateStats(input.length, output.length);
+  }, 150);
+
+  inputEl.addEventListener("input", process);
+
+  controlsToggle.addEventListener("click", () => {
+    const expanded = controlsBody.classList.toggle("collapsed") === false;
+    controlsToggle.setAttribute("aria-expanded", String(expanded));
+  });
+
+  toggleInputs.forEach((input) => {
+    input.addEventListener("change", () => {
+      if (input.dataset.key === "stripAllAttrs") syncStripAllAttrs();
+      process();
+    });
+  });
+
+  clearBtn.addEventListener("click", () => {
+    inputEl.value = "";
+    outputEl.textContent = "";
+    updateStats(0, 0);
+  });
+
+  copyBtn.addEventListener("click", async () => {
+    const text = outputEl.textContent ?? "";
+    if (!text) return;
+
+    try {
+      await navigator.clipboard.writeText(text);
+      const original = copyBtn.innerHTML;
+      copyBtn.innerHTML = "copied!";
+      setTimeout(() => {
+        copyBtn.innerHTML = original;
+      }, 1500);
+    } catch {
+      // Clipboard unavailable (non-secure context)
+    }
+  });
+
+  resetBtn.addEventListener("click", () => {
+    toggleInputs.forEach((input) => {
+      const key = input.dataset.key as keyof ReducerConfiguration;
+      if (typeof DEFAULT_CONFIG[key] === "boolean") {
+        input.checked = DEFAULT_CONFIG[key] as boolean;
+        input.disabled = false;
+      }
+    });
+    syncStripAllAttrs();
+    process();
+  });
+
+  syncStripAllAttrs();
+  updateStats(0, 0);
+</script>
