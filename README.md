@@ -1,6 +1,6 @@
 # HTML Reducer
 
-Paste HTML, strip the noise, copy what matters.
+Clean HTML for LLMs and scrapers. Paste HTML, strip the noise, copy what matters.
 
 ## What is it?
 
