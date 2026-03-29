@@ -35,7 +35,7 @@ body {
 .app {
   display: grid;
   grid-template-rows: 3rem 1fr;
-  height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
 }
 
@@ -74,6 +74,16 @@ header {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+/* On desktop, controls-body is invisible to layout — its children become
+   direct flex items of .controls, preserving the existing padding/gap. */
+.controls-body {
+  display: contents;
+}
+
+.controls-toggle {
+  display: none;
 }
 
 .section-label {
@@ -161,37 +171,6 @@ header {
 .toggle input:checked + .toggle-track::after {
   transform: translateX(0.75rem);
   background: #0e0e0f;
-}
-
-/* Output format pills */
-.format-pills {
-  display: flex;
-  gap: 0.25rem;
-  flex-wrap: wrap;
-}
-
-.pill {
-  font-family: var(--mono);
-  font-size: 0.6875rem;
-  padding: 0.25rem 0.625rem;
-  border-radius: 1.25rem;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  cursor: pointer;
-  background: transparent;
-  transition: all 0.1s;
-}
-
-.pill:hover {
-  border-color: var(--border-hi);
-  color: var(--text);
-}
-
-.pill.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #0e0e0f;
-  font-weight: 500;
 }
 
 .reset-btn {
@@ -334,4 +313,81 @@ textarea::placeholder {
 ::-webkit-scrollbar-thumb {
   background: var(--border-hi);
   border-radius: 0.125rem;
+}
+
+/* ── Mobile ── */
+@media (max-width: 1023px) {
+  .workspace {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .controls {
+    padding: 0;
+    gap: 0;
+    overflow-y: visible;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .controls-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 1rem;
+    height: 2.5rem;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .controls-toggle svg {
+    width: 0.75rem;
+    height: 0.75rem;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 0.15s;
+  }
+
+  .controls-toggle[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+  }
+
+  .controls-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.25rem 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .controls-body.collapsed {
+    display: none;
+  }
+
+  .reset-btn {
+    margin-top: 0;
+  }
+
+  .panel {
+    height: 50vh;
+    flex-shrink: 0;
+  }
+
+  .panel + .panel {
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
 }
