@@ -302,6 +302,34 @@ textarea::placeholder {
   flex-shrink: 0;
 }
 
+/* ── Attribution ── */
+.attribution {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0.625rem;
+  margin-top: auto;
+  font-size: 0.625rem;
+  color: var(--muted);
+}
+
+.attribution a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.1s;
+  font-family: var(--mono);
+}
+
+.attribution a:hover {
+  color: var(--text);
+}
+
+.attribution svg {
+  width: 1rem;
+  height: 1rem;
+  display: block;
+}
+
 /* ── Tooltip ── */
 .token-count {
   display: flex;
