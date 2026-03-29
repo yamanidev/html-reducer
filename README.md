@@ -1,46 +1,31 @@
-# Astro Starter Kit: Basics
+# HTML Reducer
 
-```sh
-pnpm create astro@latest -- --template basics
+Paste HTML, strip the noise, copy what matters.
+
+## What is it?
+
+HTML Reducer is a browser-based tool for cleaning raw HTML before feeding it to an LLM or a scraper pipeline. Scraped pages are 90%+ boilerplate — scripts, styles, ads, hidden elements, event handlers, layout attributes. This tool strips all of that down to the structure and text that actually matters.
+
+Everything is configurable. Toggle what to remove, decide which attributes to keep, collapse whitespace, remove empty tags. Output updates live as you adjust.
+
+## What it doesn't do
+
+It doesn't fetch URLs. It doesn't send your HTML anywhere — all processing runs locally in the browser. It doesn't store anything.
+
+## Who it's for
+
+Developers who scrape HTML and process it with LLMs or custom parsers. Paste in raw HTML, tweak the options, copy clean output.
+
+## Running it locally
+
+- Install the dependencies:
+
+```bash
+pnpm install
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- Run the development server:
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```bash
+pnpm dev
 ```
-
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
