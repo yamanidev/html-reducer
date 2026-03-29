@@ -1,5 +1,26 @@
 ---
 import "../styles/global.css";
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const title = "HTML Reducer — Clean HTML for LLMs and scrapers";
+const description =
+  "Browser-based tool for cleaning raw HTML before feeding it to an LLM or scraper pipeline. Scraped pages are 90%+ boilerplate — strip it out in one paste. All processing runs locally.";
+
+const webAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "HTML Reducer",
+  url: "https://html-reducer.yamani.dev",
+  description,
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Any",
+  author: {
+    "@type": "Person",
+    name: "Mohamed Yamani",
+    url: "https://mohamedyamani.com",
+  },
+};
 ---
 
 <!doctype html>
@@ -8,7 +29,33 @@ import "../styles/global.css";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    <title>HTML Reducer</title>
+    <meta name="author" content="Mohamed Yamani" />
+
+    <link rel="canonical" href={canonicalURL} />
+
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta
+      name="keywords"
+      content="HTML reducer, HTML cleaner, strip HTML, clean HTML, LLM preprocessing, scraper, remove scripts, remove styles, HTML parser, web scraping, LLM context"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content="HTML Reducer" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:creator" content="@yamanidev" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(webAppSchema)} />
   </head>
   <body>
     <slot />
