@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "html-reducer",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -16,6 +16,7 @@
     "astro": "^6.0.5"
   },
   "devDependencies": {
-    "prettier": "^3.8.1"
+    "prettier": "^3.8.1",
+    "prettier-plugin-astro": "^0.14.1"
   }
 }
