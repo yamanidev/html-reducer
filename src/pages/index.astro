@@ -161,7 +161,16 @@ import Layout from "../layouts/Layout.astro";
           <span class="panel-title">output</span>
           <div class="panel-meta">
             <span class="reduction-badge" id="reduction-badge" style="display:none">−0%</span>
-            <span id="token-count">~0 tokens</span>
+            <span class="token-count">
+              <span id="token-count">~0 tokens</span>
+              <span class="tooltip-anchor">
+                <svg viewBox="0 0 16 16">
+                  <circle cx="8" cy="8" r="6"></circle>
+                  <path d="M8 7.5v3M8 5v.5"></path>
+                </svg>
+                <span class="tooltip">estimated — 1 token ≈ 4 chars</span>
+              </span>
+            </span>
             <button class="icon-btn" id="btn-copy">
               <svg viewBox="0 0 16 16">
                 <rect x="5" y="5" width="8" height="8" rx="1"></rect>
