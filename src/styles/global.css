@@ -16,8 +16,8 @@
   --muted: #6b6b72;
   --accent: #c8f04a;
   --accent-dk: #a8cc35;
-  --mono: "Berkeley Mono", "JetBrains Mono", monospace;
-  --sans: "DM Sans", sans-serif;
+  --mono: monospace;
+  --sans: system-ui, sans-serif;
   --radius: 0.375rem;
 }
 
