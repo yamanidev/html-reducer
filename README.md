@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="logos/final/logo.svg" width="64" alt="HTML Reducer logo" />
+</p>
+
 # HTML Reducer
 
 Clean HTML for LLMs and scrapers. Paste HTML, strip the noise, copy what matters.
