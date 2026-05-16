@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logos/final/logo.svg" width="64" alt="HTML Reducer logo" />
+  <img src="public/logo.svg" width="64" alt="HTML Reducer logo" />
 </p>
 
 # HTML Reducer
