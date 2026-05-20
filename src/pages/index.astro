@@ -225,6 +225,7 @@ import Layout from "../layouts/Layout.astro";
 <script>
   import { reduceHtml, DEFAULT_CONFIG } from "../lib/reducer";
   import type { ReducerConfiguration } from "../lib/reducer";
+  import { loadConfiguration, saveConfiguration } from "../lib/storage";
 
   const inputEl = document.getElementById("html-input") as HTMLTextAreaElement;
   const outputEl = document.getElementById("html-output") as HTMLElement;
@@ -241,33 +242,6 @@ import Layout from "../layouts/Layout.astro";
     'input[data-key="stripAllAttrs"]',
   )!;
   const attrKeepRows = document.querySelectorAll<HTMLElement>("[data-attr-sub]");
-
-  const STORAGE_KEY = "html-reducer:configuration";
-
-  type StoredConfiguration = {
-    reducer?: Partial<ReducerConfiguration>;
-    controlsOpen?: boolean;
-  };
-
-  function loadConfiguration(): StoredConfiguration {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return {};
-
-      const parsed = JSON.parse(raw);
-      if (typeof parsed === "object") {
-        return parsed as StoredConfiguration;
-      }
-    } catch {}
-
-    return {};
-  }
-
-  function saveConfiguration(next: StoredConfiguration): void {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    } catch {}
-  }
 
   let storedConfiguration = loadConfiguration();
 
