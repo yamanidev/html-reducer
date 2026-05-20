@@ -75,6 +75,7 @@ header {
   grid-template-columns: 16.25rem 1fr 1fr;
   overflow: hidden;
   min-height: 0;
+  max-height: calc(100dvh - 3rem);
 }
 
 /* ── Controls panel ── */
