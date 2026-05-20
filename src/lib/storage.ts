@@ -1,7 +1,7 @@
 import type { OutputFormat } from "./format";
 import type { ReducerConfiguration } from "./reducer";
 
-const STORAGE_KEY = "html-reducer:configuration";
+export const STORAGE_KEY = "html-reducer:configuration";
 
 export type StoredConfiguration = {
   reducer?: Partial<ReducerConfiguration>;

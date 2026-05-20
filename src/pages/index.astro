@@ -1,5 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { OUTPUT_FORMATS } from "../lib/format";
+import { STORAGE_KEY } from "../lib/storage";
 ---
 
 <Layout>
@@ -235,15 +237,57 @@ import Layout from "../layouts/Layout.astro";
   </div>
 </Layout>
 
+<!--
+  Hydrate persisted state before first paint to avoid a flash of default UI.
+  Runs synchronously (non-module, post-DOM), so element state is correct by the time the browser paints.
+-->
+<script is:inline define:vars={{ STORAGE_KEY, OUTPUT_FORMATS }}>
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const stored = JSON.parse(raw);
+
+      if (stored.format && OUTPUT_FORMATS.includes(stored.format)) {
+        document.querySelectorAll("button[data-format]").forEach((btn) => {
+          btn.setAttribute("aria-pressed", String(btn.dataset.format === stored.format));
+        });
+      }
+
+      if (stored.reducer) {
+        document.querySelectorAll("input[data-key]").forEach((input) => {
+          const value = stored.reducer[input.dataset.key];
+          if (typeof value === "boolean") input.checked = value;
+        });
+
+        if (stored.reducer.stripAllAttrs === true) {
+          document.querySelectorAll("[data-attr-sub]").forEach((row) => {
+            row.classList.add("disabled");
+            const sub = row.querySelector("input");
+            if (sub) sub.disabled = true;
+          });
+        }
+      }
+
+      if (stored.controlsOpen) {
+        document.getElementById("controls-body")?.classList.remove("collapsed");
+        document.getElementById("controls-toggle")?.setAttribute("aria-expanded", "true");
+      }
+    }
+  } catch {}
+</script>
+
 <script>
   import { reduceHtml, DEFAULT_CONFIG } from "../lib/reducer";
   import type { ReducerConfiguration } from "../lib/reducer";
-  import { formatOutput } from "../lib/format";
+  import { formatOutput, OUTPUT_FORMATS } from "../lib/format";
   import type { OutputFormat } from "../lib/format";
   import { loadConfiguration, saveConfiguration } from "../lib/storage";
 
   const DEFAULT_FORMAT: OutputFormat = "html";
-  const VALID_FORMATS: ReadonlySet<OutputFormat> = new Set(["html", "markdown", "text"]);
+
+  function isValidFormat(value: unknown): value is OutputFormat {
+    return typeof value === "string" && (OUTPUT_FORMATS as readonly string[]).includes(value);
+  }
 
   const inputEl = document.getElementById("html-input") as HTMLTextAreaElement;
   const outputEl = document.getElementById("html-output") as HTMLElement;
@@ -263,10 +307,9 @@ import Layout from "../layouts/Layout.astro";
   const formatButtons = document.querySelectorAll<HTMLButtonElement>("button[data-format]");
 
   let storedConfiguration = loadConfiguration();
-  let currentFormat: OutputFormat =
-    storedConfiguration.format && VALID_FORMATS.has(storedConfiguration.format)
-      ? storedConfiguration.format
-      : DEFAULT_FORMAT;
+  let currentFormat: OutputFormat = isValidFormat(storedConfiguration.format)
+    ? storedConfiguration.format
+    : DEFAULT_FORMAT;
 
   function snapshotReducerConfig(): Partial<ReducerConfiguration> {
     const out: Partial<ReducerConfiguration> = {};
@@ -278,26 +321,6 @@ import Layout from "../layouts/Layout.astro";
     });
 
     return out;
-  }
-
-  function applyStoredReducerConfig(): void {
-    const stored = storedConfiguration.reducer;
-    if (!stored) return;
-
-    toggleInputs.forEach((input) => {
-      const key = input.dataset.key as keyof ReducerConfiguration;
-      const value = stored[key];
-      if (typeof value === "boolean" && typeof DEFAULT_CONFIG[key] === "boolean") {
-        input.checked = value;
-      }
-    });
-  }
-
-  function applyStoredControlsState(): void {
-    if (storedConfiguration.controlsOpen) {
-      controlsBody.classList.remove("collapsed");
-      controlsToggle.setAttribute("aria-expanded", "true");
-    }
   }
 
   function applyFormatButtons(): void {
@@ -369,8 +392,8 @@ import Layout from "../layouts/Layout.astro";
 
   formatButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      const next = button.dataset.format as OutputFormat | undefined;
-      if (!next || !VALID_FORMATS.has(next) || next === currentFormat) return;
+      const next = button.dataset.format;
+      if (!isValidFormat(next) || next === currentFormat) return;
 
       currentFormat = next;
       applyFormatButtons();
@@ -432,9 +455,6 @@ import Layout from "../layouts/Layout.astro";
     process();
   });
 
-  applyStoredReducerConfig();
-  applyStoredControlsState();
-  applyFormatButtons();
   syncStripAllAttrs();
   updateStats(0, 0);
 </script>

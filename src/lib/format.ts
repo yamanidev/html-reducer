@@ -1,6 +1,7 @@
 import TurndownService from "turndown";
 
-export type OutputFormat = "html" | "markdown" | "text";
+export const OUTPUT_FORMATS = ["html", "markdown", "text"] as const;
+export type OutputFormat = (typeof OUTPUT_FORMATS)[number];
 
 let _turndown: TurndownService | null = null;
 function getTurndown(): TurndownService {
