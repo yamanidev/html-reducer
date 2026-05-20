@@ -4,13 +4,13 @@
 
 # HTML Reducer
 
-Clean HTML for LLMs and scrapers. Paste HTML, strip the noise, copy what matters.
+Turn raw HTML into LLM-ready output. Paste HTML, strip the noise, copy what matters: cleaned HTML, Markdown, or plain text.
 
 ## What is it?
 
-HTML Reducer is a browser-based tool for cleaning raw HTML before feeding it to an LLM or a scraper pipeline. Scraped pages are 90%+ boilerplate — scripts, styles, ads, hidden elements, event handlers, layout attributes. This tool strips all of that down to the structure and text that actually matters.
+HTML Reducer is a browser-based tool for preparing raw HTML before feeding it to an LLM or a scraper pipeline. Scraped pages are 90%+ boilerplate — scripts, styles, ads, hidden elements, event handlers, layout attributes. This tool strips all of that down to the structure and text that actually matters.
 
-Everything is configurable. Toggle what to remove, decide which attributes to keep, collapse whitespace, remove empty tags. Output updates live as you adjust.
+Everything is configurable. Toggle what to remove, decide which attributes to keep, collapse whitespace, remove empty tags. Output updates live as you adjust, and you can switch between HTML, Markdown, and text output to match what the downstream model or parser expects.
 
 ## What it doesn't do
 
