@@ -1,3 +1,4 @@
+import type { OutputFormat } from "./format";
 import type { ReducerConfiguration } from "./reducer";
 
 const STORAGE_KEY = "html-reducer:configuration";
@@ -5,6 +6,7 @@ const STORAGE_KEY = "html-reducer:configuration";
 export type StoredConfiguration = {
   reducer?: Partial<ReducerConfiguration>;
   controlsOpen?: boolean;
+  format?: OutputFormat;
 };
 
 export function loadConfiguration(): StoredConfiguration {
