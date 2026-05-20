@@ -242,6 +242,67 @@ import Layout from "../layouts/Layout.astro";
   )!;
   const attrKeepRows = document.querySelectorAll<HTMLElement>("[data-attr-sub]");
 
+  const STORAGE_KEY = "html-reducer:configuration";
+
+  type StoredConfiguration = {
+    reducer?: Partial<ReducerConfiguration>;
+    controlsOpen?: boolean;
+  };
+
+  function loadConfiguration(): StoredConfiguration {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return {};
+
+      const parsed = JSON.parse(raw);
+      if (typeof parsed === "object") {
+        return parsed as StoredConfiguration;
+      }
+    } catch {}
+
+    return {};
+  }
+
+  function saveConfiguration(next: StoredConfiguration): void {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    } catch {}
+  }
+
+  let storedConfiguration = loadConfiguration();
+
+  function snapshotReducerConfig(): Partial<ReducerConfiguration> {
+    const out: Partial<ReducerConfiguration> = {};
+    toggleInputs.forEach((input) => {
+      const key = input.dataset.key as keyof ReducerConfiguration;
+      if (typeof DEFAULT_CONFIG[key] === "boolean") {
+        (out as Record<string, boolean>)[key] = input.checked;
+      }
+    });
+
+    return out;
+  }
+
+  function applyStoredReducerConfig(): void {
+    const stored = storedConfiguration.reducer;
+    if (!stored) return;
+
+    toggleInputs.forEach((input) => {
+      const key = input.dataset.key as keyof ReducerConfiguration;
+      const value = stored[key];
+      if (typeof value === "boolean" && typeof DEFAULT_CONFIG[key] === "boolean") {
+        input.checked = value;
+      }
+    });
+  }
+
+  function applyStoredControlsState(): void {
+    if (storedConfiguration.controlsOpen) {
+      controlsBody.classList.remove("collapsed");
+      controlsToggle.setAttribute("aria-expanded", "true");
+    }
+  }
+
   function debounce(fn: () => void, ms: number): () => void {
     let timer: ReturnType<typeof setTimeout>;
 
@@ -297,11 +358,15 @@ import Layout from "../layouts/Layout.astro";
   controlsToggle.addEventListener("click", () => {
     const expanded = controlsBody.classList.toggle("collapsed") === false;
     controlsToggle.setAttribute("aria-expanded", String(expanded));
+    storedConfiguration = { ...storedConfiguration, controlsOpen: expanded };
+    saveConfiguration(storedConfiguration);
   });
 
   toggleInputs.forEach((input) => {
     input.addEventListener("change", () => {
       if (input.dataset.key === "stripAllAttrs") syncStripAllAttrs();
+      storedConfiguration = { ...storedConfiguration, reducer: snapshotReducerConfig() };
+      saveConfiguration(storedConfiguration);
       process();
     });
   });
@@ -337,9 +402,13 @@ import Layout from "../layouts/Layout.astro";
       }
     });
     syncStripAllAttrs();
+    storedConfiguration = { ...storedConfiguration, reducer: undefined };
+    saveConfiguration(storedConfiguration);
     process();
   });
 
+  applyStoredReducerConfig();
+  applyStoredControlsState();
   syncStripAllAttrs();
   updateStats(0, 0);
 </script>
