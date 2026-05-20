@@ -195,21 +195,7 @@ import { STORAGE_KEY } from "../lib/storage";
 
       <!-- Output panel -->
       <div class="panel">
-        <div class="panel-header">
-          <div class="segmented" role="group" aria-label="output format">
-            <button type="button" class="segmented-option" data-format="html" aria-pressed="true"
-              >html</button
-            >
-            <button
-              type="button"
-              class="segmented-option"
-              data-format="markdown"
-              aria-pressed="false">markdown</button
-            >
-            <button type="button" class="segmented-option" data-format="text" aria-pressed="false"
-              >text</button
-            >
-          </div>
+        <div class="panel-header panel-header--reverse">
           <div class="panel-meta">
             <span class="reduction-badge" id="reduction-badge" style="display:none">−0%</span>
             <span class="token-count">
@@ -229,6 +215,20 @@ import { STORAGE_KEY } from "../lib/storage";
               </svg>
               copy
             </button>
+          </div>
+          <div class="segmented" role="group" aria-label="output format">
+            <button type="button" class="segmented-option" data-format="html" aria-pressed="true"
+              >html</button
+            >
+            <button
+              type="button"
+              class="segmented-option"
+              data-format="markdown"
+              aria-pressed="false">markdown</button
+            >
+            <button type="button" class="segmented-option" data-format="text" aria-pressed="false"
+              >text</button
+            >
           </div>
         </div>
         <div class="output-area" id="html-output"></div>

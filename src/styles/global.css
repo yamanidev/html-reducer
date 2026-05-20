@@ -228,6 +228,12 @@ header {
   flex-shrink: 0;
 }
 
+/* Reverses visual order so tab order can lead with the primary action
+   (copy) while the segmented group stays on the left. */
+.panel-header--reverse {
+  flex-direction: row-reverse;
+}
+
 .panel-title {
   font-family: var(--mono);
   font-size: 0.6875rem;
