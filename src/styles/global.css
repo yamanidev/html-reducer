@@ -27,7 +27,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--sans);
-  font-size: 0.875rem;
+  font-size: 1rem;
   line-height: 1.5;
 }
 
@@ -314,7 +314,7 @@ textarea,
   background: var(--bg-input);
   color: var(--text);
   font-family: var(--mono);
-  font-size: 0.78125rem;
+  font-size: 0.875rem;
   line-height: 1.7;
   padding: 1rem;
   border: none;
