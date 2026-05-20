@@ -194,7 +194,20 @@ import Layout from "../layouts/Layout.astro";
       <!-- Output panel -->
       <div class="panel">
         <div class="panel-header">
-          <span class="panel-title">output</span>
+          <div class="segmented" role="group" aria-label="output format">
+            <button type="button" class="segmented-option" data-format="html" aria-pressed="true"
+              >html</button
+            >
+            <button
+              type="button"
+              class="segmented-option"
+              data-format="markdown"
+              aria-pressed="false">markdown</button
+            >
+            <button type="button" class="segmented-option" data-format="text" aria-pressed="false"
+              >text</button
+            >
+          </div>
           <div class="panel-meta">
             <span class="reduction-badge" id="reduction-badge" style="display:none">−0%</span>
             <span class="token-count">
@@ -225,7 +238,12 @@ import Layout from "../layouts/Layout.astro";
 <script>
   import { reduceHtml, DEFAULT_CONFIG } from "../lib/reducer";
   import type { ReducerConfiguration } from "../lib/reducer";
+  import { formatOutput } from "../lib/format";
+  import type { OutputFormat } from "../lib/format";
   import { loadConfiguration, saveConfiguration } from "../lib/storage";
+
+  const DEFAULT_FORMAT: OutputFormat = "html";
+  const VALID_FORMATS: ReadonlySet<OutputFormat> = new Set(["html", "markdown", "text"]);
 
   const inputEl = document.getElementById("html-input") as HTMLTextAreaElement;
   const outputEl = document.getElementById("html-output") as HTMLElement;
@@ -242,8 +260,13 @@ import Layout from "../layouts/Layout.astro";
     'input[data-key="stripAllAttrs"]',
   )!;
   const attrKeepRows = document.querySelectorAll<HTMLElement>("[data-attr-sub]");
+  const formatButtons = document.querySelectorAll<HTMLButtonElement>("button[data-format]");
 
   let storedConfiguration = loadConfiguration();
+  let currentFormat: OutputFormat =
+    storedConfiguration.format && VALID_FORMATS.has(storedConfiguration.format)
+      ? storedConfiguration.format
+      : DEFAULT_FORMAT;
 
   function snapshotReducerConfig(): Partial<ReducerConfiguration> {
     const out: Partial<ReducerConfiguration> = {};
@@ -275,6 +298,13 @@ import Layout from "../layouts/Layout.astro";
       controlsBody.classList.remove("collapsed");
       controlsToggle.setAttribute("aria-expanded", "true");
     }
+  }
+
+  function applyFormatButtons(): void {
+    formatButtons.forEach((button) => {
+      const active = button.dataset.format === currentFormat;
+      button.setAttribute("aria-pressed", String(active));
+    });
   }
 
   function debounce(fn: () => void, ms: number): () => void {
@@ -320,14 +350,35 @@ import Layout from "../layouts/Layout.astro";
     });
   }
 
-  const process = debounce(() => {
+  function runProcess(): void {
     const input = inputEl.value;
-    const output = input.trim() ? reduceHtml(input, readOptions()) : "";
+    if (!input.trim()) {
+      outputEl.textContent = "";
+      updateStats(0, 0);
+      return;
+    }
+    const cleaned = reduceHtml(input, readOptions());
+    const output = formatOutput(cleaned, currentFormat);
     outputEl.textContent = output;
     updateStats(input.length, output.length);
-  }, 150);
+  }
+
+  const process = debounce(runProcess, 150);
 
   inputEl.addEventListener("input", process);
+
+  formatButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const next = button.dataset.format as OutputFormat | undefined;
+      if (!next || !VALID_FORMATS.has(next) || next === currentFormat) return;
+
+      currentFormat = next;
+      applyFormatButtons();
+      storedConfiguration = { ...storedConfiguration, format: next };
+      saveConfiguration(storedConfiguration);
+      runProcess();
+    });
+  });
 
   controlsToggle.addEventListener("click", () => {
     const expanded = controlsBody.classList.toggle("collapsed") === false;
@@ -383,6 +434,7 @@ import Layout from "../layouts/Layout.astro";
 
   applyStoredReducerConfig();
   applyStoredControlsState();
+  applyFormatButtons();
   syncStripAllAttrs();
   updateStats(0, 0);
 </script>
