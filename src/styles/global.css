@@ -134,8 +134,17 @@ header {
 }
 
 .toggle-label {
-  font-family: var(--mono);
+  font-family: var(--sans);
   font-size: 0.75rem;
+  color: var(--text);
+}
+
+.toggle-label code {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  padding: 0.0625rem 0.3125rem;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 0.1875rem;
   color: var(--text);
 }
 

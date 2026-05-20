@@ -39,14 +39,14 @@ import { STORAGE_KEY } from "../lib/storage";
             <div class="section-label">strip</div>
             <div class="toggle-list">
               <label class="toggle-row">
-                <span class="toggle-label">scripts</span>
+                <span class="toggle-label"><code>scripts</code></span>
                 <span class="toggle">
                   <input type="checkbox" data-key="stripScripts" checked />
                   <span class="toggle-track"></span>
                 </span>
               </label>
               <label class="toggle-row">
-                <span class="toggle-label">styles</span>
+                <span class="toggle-label"><code>styles</code></span>
                 <span class="toggle">
                   <input type="checkbox" data-key="stripStyles" checked />
                   <span class="toggle-track"></span>
@@ -60,28 +60,30 @@ import { STORAGE_KEY } from "../lib/storage";
                 </span>
               </label>
               <label class="toggle-row">
-                <span class="toggle-label">meta / link / head</span>
+                <span class="toggle-label"
+                  ><code>meta</code> / <code>link</code> / <code>head</code></span
+                >
                 <span class="toggle">
                   <input type="checkbox" data-key="stripMetaLinkHead" checked />
                   <span class="toggle-track"></span>
                 </span>
               </label>
               <label class="toggle-row">
-                <span class="toggle-label">hidden elements</span>
+                <span class="toggle-label"><code>hidden</code> elements</span>
                 <span class="toggle">
                   <input type="checkbox" data-key="stripHidden" checked />
                   <span class="toggle-track"></span>
                 </span>
               </label>
               <label class="toggle-row">
-                <span class="toggle-label">svg</span>
+                <span class="toggle-label"><code>svg</code></span>
                 <span class="toggle">
                   <input type="checkbox" data-key="stripSvg" checked />
                   <span class="toggle-track"></span>
                 </span>
               </label>
               <label class="toggle-row">
-                <span class="toggle-label">noscript</span>
+                <span class="toggle-label"><code>noscript</code></span>
                 <span class="toggle">
                   <input type="checkbox" data-key="stripNoscript" checked />
                   <span class="toggle-track"></span>
@@ -101,21 +103,21 @@ import { STORAGE_KEY } from "../lib/storage";
             <div class="section-label">attributes</div>
             <div class="toggle-list">
               <label class="toggle-row" data-attr-sub>
-                <span class="toggle-label">strip id / class</span>
+                <span class="toggle-label">strip <code>id</code> / <code>class</code></span>
                 <span class="toggle">
                   <input type="checkbox" data-key="stripIdClass" />
                   <span class="toggle-track"></span>
                 </span>
               </label>
               <label class="toggle-row" data-attr-sub>
-                <span class="toggle-label">strip href</span>
+                <span class="toggle-label">strip <code>href</code></span>
                 <span class="toggle">
                   <input type="checkbox" data-key="stripHref" />
                   <span class="toggle-track"></span>
                 </span>
               </label>
               <label class="toggle-row" data-attr-sub>
-                <span class="toggle-label">strip src / alt</span>
+                <span class="toggle-label">strip <code>src</code> / <code>alt</code></span>
                 <span class="toggle">
                   <input type="checkbox" data-key="stripSrcAlt" />
                   <span class="toggle-track"></span>
